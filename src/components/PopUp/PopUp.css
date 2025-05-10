@@ -1,0 +1,118 @@
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out; /* Smooth fade effect */
+}
+
+/* Popup Container */
+.popup-container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Softer shadow */
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  border: 1px solid #ddd;
+  animation: slide-up 0.3s ease-out; /* Sliding animation */
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.popup-container h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+/* Form Inputs */
+.popup-container input,
+.popup-container textarea,
+.popup-container select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 1.4rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f7f7f7;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.popup-container input:focus,
+.popup-container textarea:focus,
+.popup-container select:focus {
+  border-color: #4caf50;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Button Styles */
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-button,
+.cancel-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 48%;
+  transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Hover Effects */
+.save-button:hover {
+  background-color: #388e3c;
+  transform: translateY(-3px);
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+  transform: translateY(-3px);
+}
+
+/* Focused Input Animations */
+.popup-container input:focus,
+.popup-container textarea:focus,
+.popup-container select:focus {
+  border-color: #4caf50;
+  background: #fff;
+}
