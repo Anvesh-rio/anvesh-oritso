@@ -13,15 +13,24 @@ const TodoList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 500); // debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     fetchTodos();
-  }, [searchQuery]);
+  }, [debouncedQuery]);
 
   const fetchTodos = async () => {
     try {
       const response = await axios.get(
-        `${config.BASE_URL}/api/tasks/task/search?q=${searchQuery}`
+        `${config.BASE_URL}/api/tasks/task/search?q=${debouncedQuery}`
       );
       setTodos(response.data.data);
     } catch (error) {
@@ -87,16 +96,16 @@ const TodoList = () => {
     <div className="todo-container">
       <h1>{"ORITSO Todo"}</h1>
       <div className="input-limit">
-      <div className="search-container">
-        <input
-          type="text"
-          className="searchInput"
-          placeholder="🔍 Search tasks..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-      <h1 className="limit">20 limit only</h1>
+        <div className="search-container">
+          <input
+            type="text"
+            className="searchInput"
+            placeholder="🔍 Search tasks..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <h1 className="limit">20 limit only</h1>
       </div>
 
       <form
@@ -125,10 +134,7 @@ const TodoList = () => {
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
         />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="pending">Pending</option>
           <option value="in progress">In Progress</option>
           <option value="completed">Completed</option>
@@ -138,14 +144,19 @@ const TodoList = () => {
 
       <ul className="todo-list">
         {todos.map((todo) => (
-          <li key={todo._id} className={todo.status === "completed" ? "completed" : ""}>
+          <li
+            key={todo._id}
+            className={todo.status === "completed" ? "completed" : ""}
+          >
             <div className="todo-text">
               <span className="todo-title">{todo.title}</span>
               {todo.description && <small>{todo.description}</small>}
               {todo.dueDate && (
                 <small>Due: {new Date(todo.dueDate).toLocaleDateString()}</small>
               )}
-              {todo.status === "completed" && <span className="badge">Completed</span>}
+              {todo.status === "completed" && (
+                <span className="badge">Completed</span>
+              )}
             </div>
             <div className="todo-actions">
               <button onClick={() => openModal(todo)}>Update</button>
@@ -154,8 +165,7 @@ const TodoList = () => {
           </li>
         ))}
       </ul>
-            <h1 className="heading-anvesh">{"thank you - anveshjarpati@gmail.com"}</h1>
-
+      <h1 className="heading-anvesh">{"thank you - anveshjarpati@gmail.com"}</h1>
 
       {modalOpen && (
         <PopUp
